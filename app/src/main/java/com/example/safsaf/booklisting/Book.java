@@ -39,6 +39,24 @@ public class Book implements Parcelable {
 
     }// public Book()
 
+    protected Book(Parcel in) {
+        mTitle = in.readString();
+        mAuthors = in.createStringArrayList();
+        mPublishedDate = in.readString();
+    }
+
+    public static final Creator<Book> CREATOR = new Creator<Book>() {
+        @Override
+        public Book createFromParcel(Parcel in) {
+            return new Book(in);
+        }
+
+        @Override
+        public Book[] newArray(int size) {
+            return new Book[size];
+        }
+    };
+
     /**
      * Returns the title of the book
      */
@@ -70,6 +88,8 @@ public class Book implements Parcelable {
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {
-
+        dest.writeString(mTitle);
+        dest.writeStringList(mAuthors);
+        dest.writeString(mPublishedDate);
     }
 }// public class Book
