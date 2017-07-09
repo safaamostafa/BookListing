@@ -7,7 +7,10 @@ import android.os.Bundle;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.Loader;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -45,6 +48,11 @@ public class BookActivity extends AppCompatActivity implements LoaderManager.Loa
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_book);
+
+        EditText searchField =(EditText) findViewById(R.id.search_title_title);
+        String searchUser = searchField.getText().toString();
+        Button search =(Button) findViewById(R.id.search_btn);
+        Log.v("BookActivity" ,"Name: " + searchField);
 
         // Find a reference to the {@link ListView} in the layout
         ListView bookListView = (ListView) findViewById(R.id.list);
