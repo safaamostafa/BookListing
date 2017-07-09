@@ -6,6 +6,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.TextView;
+
 import java.util.ArrayList;
 
 /**
@@ -18,7 +19,7 @@ public class BookAdapter extends ArrayAdapter<Book> {
      * Create a new {@link BookAdapter} object.
      *
      * @param context is the current context (i.e. Activity) that the adapter is being created in.
-     * @param books is the list of {@link Book}s to be displayed.
+     * @param books   is the list of {@link Book}s to be displayed.
      */
     public BookAdapter(Context context, ArrayList<Book> books) {
         super(context, 0, books);
@@ -40,13 +41,21 @@ public class BookAdapter extends ArrayAdapter<Book> {
         TextView titleTextView = (TextView) listItemView.findViewById(R.id.title);
         // Get the Miwok translation from the currentWord object and set this text on
         // the Miwok TextView.
-       titleTextView.setText(currentBook.getTitle());
+        titleTextView.setText(currentBook.getTitle());
 
         // Find the TextView in the list_item.xml layout with the ID default_text_view.
         TextView authorsTextView = (TextView) listItemView.findViewById(R.id.authors);
         // Get the default translation from the currentWord object and set this text on
         // the default TextView.
-        authorsTextView.setText(currentBook.getAuthors());
+        String authors = "";
+        for (int i = 0; i < currentBook.getAuthors().size(); i++) {
+            String author = currentBook.getAuthors().get(i);
+            if (i==0)
+                authors = author;
+            else
+                authors = authors + "," + author;
+        }
+        authorsTextView.setText(authors);
 
         // Find the TextView in the list_item.xml layout with the ID default_text_view.
         TextView publishedDateTextView = (TextView) listItemView.findViewById(R.id.publishedDate);

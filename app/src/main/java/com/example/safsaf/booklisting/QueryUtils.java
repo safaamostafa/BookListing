@@ -23,7 +23,9 @@ import java.util.List;
  */
 public final class QueryUtils {
 
-    /** Tag for the log messages */
+    /**
+     * Tag for the log messages
+     */
     private static final String LOG_TAG = QueryUtils.class.getSimpleName();
 
 
@@ -37,8 +39,8 @@ public final class QueryUtils {
 
 
     /**
-          * Query the USGS dataset and return a list of {@link Book} objects.
-          */
+     * Query the USGS dataset and return a list of {@link Book} objects.
+     */
     public static List<Book> fetchBookData(String requestUrl) {
         // Create URL object
         URL url = createUrl(requestUrl);
@@ -59,8 +61,8 @@ public final class QueryUtils {
 
 
     /**
-          * Returns new URL object from the given string URL.
-          */
+     * Returns new URL object from the given string URL.
+     */
     private static URL createUrl(String stringUrl) {
         URL url = null;
         try {
@@ -72,8 +74,9 @@ public final class QueryUtils {
     }
 
     /**
-     +     * Make an HTTP request to the given URL and return a String as the response.
-     +     */
+     * +     * Make an HTTP request to the given URL and return a String as the response.
+     * +
+     */
     private static String makeHttpRequest(URL url) throws IOException {
         String jsonResponse = "";
 
@@ -117,9 +120,9 @@ public final class QueryUtils {
     }
 
     /**
-          * Convert the {@link InputStream} into a String which contains the
-          * whole JSON response from the server.
-          */
+     * Convert the {@link InputStream} into a String which contains the
+     * whole JSON response from the server.
+     */
     private static String readFromStream(InputStream inputStream) throws IOException {
         StringBuilder output = new StringBuilder();
         if (inputStream != null) {
@@ -135,10 +138,10 @@ public final class QueryUtils {
     }
 
 
-
     /**
      * Return a list of {@link Book} objects that has been built up from
      * parsing a JSON response.
+     *
      * @param Google_REQUEST_URL
      */
     public static ArrayList<Book> extractBooks(String Google_REQUEST_URL) {
@@ -148,35 +151,39 @@ public final class QueryUtils {
         }
         try {
             JSONObject baseJsonResponse = new JSONObject(Google_REQUEST_URL);
-            JSONArray bookArray= baseJsonResponse.getJSONArray("items");
+            JSONArray bookArray = baseJsonResponse.getJSONArray("items");
 
 
             // Extract the JSONArray associated with the key called "items",
             // which represents a list of features (or Books).
 
 
+            // Extract out the first feature (which is a book)
+            for (int i = 0; i < bookArray.length(); i++) {
+                // Get a single earthquake at position i within the list of earthquakes
+                JSONObject currentBook = bookArray.getJSONObject(i);
 
-                // Extract out the first feature (which is a book)
-                for (int i = 0; i < bookArray.length(); i++) {
-                    // Get a single earthquake at position i within the list of earthquakes
-                    JSONObject currentBook = bookArray.getJSONObject(i);
+                // For a given book, extract the JSONObject associated with the
+                // key called "volumeInfo", which represents a list of all properties
+                // for that books.
+                JSONObject volumeInfo = currentBook.getJSONObject("volumeInfo");
 
-                    // For a given book, extract the JSONObject associated with the
-                    // key called "volumeInfo", which represents a list of all properties
-                    // for that books.
-                    JSONObject volumeInfo = currentBook.getJSONObject("volumeInfo");
+                String title = volumeInfo.getString("title");
+                JSONArray authors = volumeInfo.getJSONArray("authors");
 
-                    String title = volumeInfo.getString("title");
-                    String authors=volumeInfo.getString("authors");
-
-                    String publishedDate=volumeInfo.getString("publishedDate");
-                    // Create a new {@link book} object with the title, authors, publishedDate,
-                    // and url from the JSON response.
-                    Book book = new Book(title, authors, publishedDate);
-
-                    // Add the new {@link book} to the list of books.
-                 books.add(book);
+                ArrayList<String> authorsArray = new ArrayList<>();
+                for (int y = 0; y < authors.length(); y++) {
+                    authorsArray.add(authors.getString(y));
                 }
+
+                String publishedDate = volumeInfo.getString("publishedDate");
+                // Create a new {@link book} object with the title, authors, publishedDate,
+                // and url from the JSON response.
+                Book book = new Book(title, authorsArray, publishedDate);
+
+                // Add the new {@link book} to the list of books.
+                books.add(book);
+            }
 
         } catch (JSONException e) {
             // If an error is thrown when executing any of the above statements in the "try" block,
@@ -186,7 +193,7 @@ public final class QueryUtils {
         }
 
 
-    // Return the list of books
+        // Return the list of books
         return books;
     }
 
