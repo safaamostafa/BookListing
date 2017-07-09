@@ -1,6 +1,7 @@
 package com.example.safsaf.booklisting;
 
 import android.content.Context;
+import android.content.Intent;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
@@ -13,6 +14,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -49,10 +51,8 @@ public class BookActivity extends AppCompatActivity implements LoaderManager.Loa
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_book);
 
-        EditText searchField =(EditText) findViewById(R.id.search_title_title);
-        String searchUser = searchField.getText().toString();
         Button search =(Button) findViewById(R.id.search_btn);
-        Log.v("BookActivity" ,"Name: " + searchField);
+
 
         // Find a reference to the {@link ListView} in the layout
         ListView bookListView = (ListView) findViewById(R.id.list);
@@ -128,5 +128,50 @@ public class BookActivity extends AppCompatActivity implements LoaderManager.Loa
 // Loader reset, so we can clear out our existing data.
         mAdapter.clear();
     }
+
+
+    // search
+
+    @Override
+    public void onClick(View v) {
+        //finding views by id and setting to variables
+        EditText titleSearchEditText = (EditText) findViewById(R.id.search_title_title);
+        if(v.getId() == R.id.search_btn) {
+
+            //Formatting Strings from EditText views prior to setting corresponding variables.
+            String titleString = formatSearchText(titleSearchEditText.getText().toString());
+
+
+            //Displaying toast message if search was pressed without entering text or if text was entered by
+            //user, then starting BookReportActivity and sending text entered by user as extras in intent.
+            if (titleString.equals("")) {
+                Toast.makeText(BookActivity.this, getString(R.string.no_input_toast_message), Toast.LENGTH_LONG).show();
+            } else {
+
+                Intent intent = new Intent(BookActivity.this, BookActivity.class);
+                intent.putExtra("TITLE_SEARCH_STRING", titleString);
+
+                startActivity(intent);
+            }
+        }else{
+
+            //Clearing EditText views of any user typed text.
+            titleSearchEditText.setText("");
+
+        }
+    }
+
+    /**
+     * Formatting strings entered by user to be suitable for the google books API search.
+     * First trimming leading and trailing spaces, then replacing all spaces between words with + character.
+     */
+    private String formatSearchText(String string) {
+        String trimmedString = string.trim();
+        do {
+            trimmedString = trimmedString.replace(" ", "+");
+        } while (trimmedString.contains(" "));
+        return trimmedString;
+    }
+
 
 }

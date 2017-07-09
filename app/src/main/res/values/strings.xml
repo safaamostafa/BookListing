@@ -11,5 +11,5 @@
     <string name="edit_text_hint">Search</string>
     <string name="search">Search</string>
 
-
+    <string name="no_input_toast_message">Please enter at least one character in the search fields.</string>
 </resources>
