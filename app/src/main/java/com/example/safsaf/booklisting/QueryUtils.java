@@ -153,6 +153,12 @@ public final class QueryUtils {
             JSONObject baseJsonResponse = new JSONObject(Google_REQUEST_URL);
             JSONArray bookArray = baseJsonResponse.getJSONArray("items");
 
+            if (baseJsonResponse.has("items")) {
+                bookArray = baseJsonResponse.getJSONArray("items");
+            } else {
+                bookArray = baseJsonResponse.getJSONArray("items N/A");
+            }
+
 
             // Extract the JSONArray associated with the key called "items",
             // which represents a list of features (or Books).
@@ -170,6 +176,11 @@ public final class QueryUtils {
 
                 String title = volumeInfo.getString("title");
                 JSONArray authors = volumeInfo.getJSONArray("authors");
+                if (volumeInfo.has("authors")) {
+                    authors = volumeInfo.getJSONArray("authors");
+                } else {
+                    authors = volumeInfo.getJSONArray("authors N/A");
+                }
 
                 ArrayList<String> authorsArray = new ArrayList<>();
                 for (int y = 0; y < authors.length(); y++) {
