@@ -175,9 +175,12 @@ public final class QueryUtils {
                 JSONObject volumeInfo = currentBook.getJSONObject("volumeInfo");
 
                 String title = volumeInfo.getString("title");
-               String authors = volumeInfo.getString("authors");
+               String authors = "Author N/A";
+                authors = volumeInfo.getString("authors");
                 ArrayList<String> authorsArray = new ArrayList<>();
                 if (volumeInfo.has("authors")) {
+
+
                     authors = volumeInfo.getString("authors");
                     authorsArray = new ArrayList<>();
                     for (int y = 0; y < authors.length(); y++) {
