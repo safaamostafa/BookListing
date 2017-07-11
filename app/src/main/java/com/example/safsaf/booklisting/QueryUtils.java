@@ -151,7 +151,7 @@ public final class QueryUtils {
         }
         try {
             JSONObject baseJsonResponse = new JSONObject(Google_REQUEST_URL);
-            JSONArray bookArray = baseJsonResponse.getJSONArray("items");
+            JSONArray bookArray;
 
             if (baseJsonResponse.has("items")) {
                 bookArray = baseJsonResponse.getJSONArray("items");

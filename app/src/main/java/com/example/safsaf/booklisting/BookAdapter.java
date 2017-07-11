@@ -50,7 +50,7 @@ public class BookAdapter extends ArrayAdapter<Book> {
         String authors = "";
         for (int i = 0; i < currentBook.getAuthors().size(); i++) {
             String author = currentBook.getAuthors().get(i);
-            if (i==0)
+            if (i == 0)
                 authors = author;
             else
                 authors = authors + "," + author;
