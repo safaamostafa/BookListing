@@ -112,6 +112,7 @@ public class BookActivity extends AppCompatActivity implements LoaderManager.Loa
             loaderManager.initLoader(BOOK_LOADER_ID, b, this);
         } else {
             // Otherwise, display error
+            Toast.makeText(BookActivity.this, "No Items Available",Toast.LENGTH_SHORT).show();
             // First, hide loading indicator so error message will be visible
             mLoadingIndicator.setVisibility(View.GONE);
             // Update empty state with no connection error message

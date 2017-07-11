@@ -175,17 +175,18 @@ public final class QueryUtils {
                 JSONObject volumeInfo = currentBook.getJSONObject("volumeInfo");
 
                 String title = volumeInfo.getString("title");
-                JSONArray authors = volumeInfo.getJSONArray("authors");
+               String authors = volumeInfo.getString("authors");
+                ArrayList<String> authorsArray = new ArrayList<>();
                 if (volumeInfo.has("authors")) {
-                    authors = volumeInfo.getJSONArray("authors");
+
+                    authorsArray = new ArrayList<>();
+                    for (int y = 0; y < authors.length(); y++) {
+                        authorsArray.add(authors);
+                    }
                 } else {
-                    authors = volumeInfo.getJSONArray("authors N/A");
+                    authors = volumeInfo.getString("authors N/A");
                 }
 
-                ArrayList<String> authorsArray = new ArrayList<>();
-                for (int y = 0; y < authors.length(); y++) {
-                    authorsArray.add(authors.getString(y));
-                }
 
                 String publishedDate = volumeInfo.getString("publishedDate");
                 // Create a new {@link book} object with the title, authors, publishedDate,
