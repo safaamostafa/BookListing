@@ -178,7 +178,7 @@ public final class QueryUtils {
                String authors = volumeInfo.getString("authors");
                 ArrayList<String> authorsArray = new ArrayList<>();
                 if (volumeInfo.has("authors")) {
-
+                    authors = volumeInfo.getString("authors");
                     authorsArray = new ArrayList<>();
                     for (int y = 0; y < authors.length(); y++) {
                         authorsArray.add(authors);

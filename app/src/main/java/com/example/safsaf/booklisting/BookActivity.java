@@ -111,6 +111,7 @@ public class BookActivity extends AppCompatActivity implements LoaderManager.Loa
                     loaderManager.restartLoader(BOOK_LOADER_ID, b, this);
             loaderManager.initLoader(BOOK_LOADER_ID, b, this);
         } else {
+            mAdapter.clear();
             // Otherwise, display error
             Toast.makeText(BookActivity.this, "No Items Available",Toast.LENGTH_SHORT).show();
             // First, hide loading indicator so error message will be visible
